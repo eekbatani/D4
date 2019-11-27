@@ -1,0 +1,187 @@
+<!doctype html>
+<html class="staticrypt-html">
+<head>
+    <meta charset="utf-8">
+    <title>Group #9 D4</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- do not cache this page -->
+    <meta http-equiv="cache-control" content="max-age=0"/>
+    <meta http-equiv="cache-control" content="no-cache"/>
+    <meta http-equiv="expires" content="0"/>
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT"/>
+    <meta http-equiv="pragma" content="no-cache"/>
+
+    <style>
+        .staticrypt-hr {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border: 0;
+            border-top: 1px solid #eee;
+        }
+
+        .staticrypt-page {
+            width: 360px;
+            padding: 8% 0 0;
+            margin: auto;
+            box-sizing: border-box;
+        }
+
+        .staticrypt-form {
+            position: relative;
+            z-index: 1;
+            background: #FFFFFF;
+            max-width: 360px;
+            margin: 0 auto 100px;
+            padding: 45px;
+            text-align: center;
+            box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+        }
+
+        .staticrypt-form input {
+            outline: 0;
+            background: #f2f2f2;
+            width: 100%;
+            border: 0;
+            margin: 0 0 15px;
+            padding: 15px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .staticrypt-form .staticrypt-decrypt-button {
+            text-transform: uppercase;
+            outline: 0;
+            background: #4CAF50;
+            width: 100%;
+            border: 0;
+            padding: 15px;
+            color: #FFFFFF;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .staticrypt-form .staticrypt-decrypt-button:hover, .staticrypt-form .staticrypt-decrypt-button:active, .staticrypt-form .staticrypt-decrypt-button:focus {
+            background: #43A047;
+        }
+
+        .staticrypt-html {
+            height: 100%;
+        }
+
+        .staticrypt-body {
+            margin-bottom: 1em;
+            background: #76b852; /* fallback for old browsers */
+            background: -webkit-linear-gradient(right, #76b852, #8DC26F);
+            background: -moz-linear-gradient(right, #76b852, #8DC26F);
+            background: -o-linear-gradient(right, #76b852, #8DC26F);
+            background: linear-gradient(to left, #76b852, #8DC26F);
+            font-family: "Arial", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .staticrypt-instructions {
+            margin-top: -1em;
+            margin-bottom: 1em;
+        }
+
+        .staticrypt-title {
+            font-size: 1.5em;
+        }
+
+        .staticrypt-footer {
+            position: fixed;
+            height: 20px;
+            font-size: 16px;
+            padding: 2px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin-bottom: 0;
+        }
+
+        .staticrypt-footer p {
+            margin: 2px;
+            text-align: center;
+            float: right;
+        }
+
+        .staticrypt-footer a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body class="staticrypt-body">
+<div class="staticrypt-page">
+    <div class="staticrypt-form">
+        <div class="staticrypt-instructions">
+            <p class="staticrypt-title">Group #9 D4</p>
+            <p></p>
+        </div>
+
+        <hr class="staticrypt-hr">
+
+        <form id="staticrypt-form" action="#" method="post">
+            <input id="staticrypt-password"
+                   type="password"
+                   name="password"
+                   placeholder="password"
+                   autofocus/>
+
+            <input type="submit" class="staticrypt-decrypt-button" value="DECRYPT"/>
+        </form>
+    </div>
+
+</div>
+<footer class="staticrypt-footer">
+    <p class="pull-right">Created with <a href="https://robinmoisson.github.io/staticrypt">StatiCrypt</a></p>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js" integrity="sha384-lp4k1VRKPU9eBnPePjnJ9M2RF3i7PC30gXs70+elCVfgwLwx1tv5+ctxdtwxqZa7" crossorigin="anonymous"></script>
+
+<script>
+    var keySize = 256;
+    var iterations = 1000;
+    function decrypt (encryptedMsg, pass) {
+        var salt = CryptoJS.enc.Hex.parse(encryptedMsg.substr(0, 32));
+        var iv = CryptoJS.enc.Hex.parse(encryptedMsg.substr(32, 32))
+        var encrypted = encryptedMsg.substring(64);
+
+        var key = CryptoJS.PBKDF2(pass, salt, {
+            keySize: keySize/32,
+            iterations: iterations
+        });
+
+        var decrypted = CryptoJS.AES.decrypt(encrypted, key, {
+            iv: iv,
+            padding: CryptoJS.pad.Pkcs7,
+            mode: CryptoJS.mode.CBC
+        }).toString(CryptoJS.enc.Utf8);
+        return decrypted;
+    }
+
+    document.getElementById('staticrypt-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        var passphrase = document.getElementById('staticrypt-password').value,
+            encryptedMsg = '03862b22fa4c09ff23bcf8620e08dd6bec5a719a0809cc4e3814e5dd34b89fdeb4b228745a5bc1a2486264c0671c65bd3ac953f73d073b3f99d6621e302b2584Iz/GAZKd2hIKoWEDKU8xtNYAmDe9KspfU52o2cS2Ry2NyfgAqppHyVzB6Fmulhkoeg7FVolwrRYy6RdR5L84tcnRbPHShhNcWdUhbgUo6234yJ6TEvicRyjchzpojFEPdf/xQYRDK8Rn+lWCRI3J0E0IuhrlG8ijQm7SlIQwNM+SjmxYyrvFLLMlq3e9Bzt26OOIelHp+U8SfJzjbkC29DqBpKmVJF4Ar3U/+cfLOluwz22WfB81TMg3koaZ4aHjasBJ8eO4G6XPZcUTYfvLIbLF3DoJ93MW0ZCDpmqr99j/HdgI2hBczFaq27OSwIvFFw374LWpp5qtooPlBYGVmsL6971SwZzoJ06skywP4oytQEj/2bhv9wONqC+eQd2WJKLXko0mN4Xu5BtFMbdPVQ+lfcOl/b9I0kXCLFDwrOdNtgQiDwYr/yLwtM7sCPDZ+dKFUfHVXgXeTkFd8KsY36mjHCGLlwQnP1tjkMd+v8iO2W4cI+LHQBM0YtOrfNRnGt+7CqEKZG0cxNECu+XYb+rx9upcZjnRGU6A7NQ7NUJDbRwAkb3DACbOLbZMgCB5WKSGOJDx8q1H1vChljq+gM7ufnuC3Ydv1saoAJuL+9Ww0fIf3QPcG5Xwxypis0MmJ3rEnyUK1Fqy7BKYFIDL+a1C/1nqf1zJu0iMmGXyZDpBEvR9IV4DFCF5wF0syODOU8X1tXPgf2Xve8qe8tG0hx/pkzM+36BaY7KyHBxNd9fEIxjDR3cuqVweqE/jXy55mumpdnY+p75oS/Hn7ZLq6XegLZlmPTelOIjxwwfZb8CZ8QnjfJX7nuVauLw6wnTg37Xt48kBZ3NozwlYqktytBFbhSWg7vM9PpPRjW7AYb2VstZOlbYd32XVhU2Ud0dXCX904U8Cg3M9GDVHrvwPZTrCc6Ka9CvySbByWoaxfSYGGhT5Nsh4DVTj9JfjEU4QvIqDVZC3+xPV6Cuu6y5vOrU3zouuEuqxcGuHljLII2qwL5VC52/btmzrkG5XJ63hoR1KcMTkln7rP4G8cOxtTYDnWkAcfv7+KlpcHZKrBE+UkJUrS1x3CdBUDEvgJW0SvT/g+AGxOpm26I+PlqCY+ZDjtxszdgqGI4MKcjJ+cOTwtuSJyPRTKZJgx/w6t+2LqfJaq5v4ZkPhWSYzBcGxigYdIMWJnaHxzvHcnLwQVLBUFDXKJwxsINXEgwMedjqPz6MMyRfpntjx2cOANB3K0V2VZE4Xd1MAz7lRHj1pUV1MeTJs0YijcuUzb6GmGpqZ64a/o5PoAS2eOIAdnv/ElMM/RLBYnz4i8KVA0ChsnegaXuHNkyHQbbpK5u3DMudh/ZjXWzjTipb7iKsHL6GkPNA/nTh4o2stUFt4PUz0cXFfZhC3ya6RnWzXK4xi8NCpdUOA8g/TrHmKPF8nFHReLQ==',
+            encryptedHMAC = encryptedMsg.substring(0, 64),
+            encryptedHTML = encryptedMsg.substring(64),
+            decryptedHMAC = CryptoJS.HmacSHA256(encryptedHTML, CryptoJS.SHA256(passphrase).toString()).toString();
+
+        if (decryptedHMAC !== encryptedHMAC) {
+            alert('Incorrect password!');
+            return;
+        }
+
+        var plainHTML = decrypt(encryptedHTML, passphrase);
+
+        document.write(plainHTML);
+        document.close();
+    });
+</script>
+</body>
+</html>
